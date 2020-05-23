@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EBBF55FE-DED1-4CE9-AECE-FAF3674EB28F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Poc.Rabbitmq.Balancer.WindowsService</RootNamespace>
+    <AssemblyName>Poc.Rabbitmq.Balancer.WindowsService</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet Condition="'$(ISTEAMBUILDMACHINE)' == '1'">..\BuildProcessTemplates\TFSBuildExtensions\SupportFiles\VuelingRuleSet.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(ISTEAMBUILDMACHINE)' == ''">..\..\..\BuildProcessTemplates\TFSBuildExtensions\SupportFiles\VuelingRuleSet.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet Condition="'$(ISTEAMBUILDMACHINE)' == '1'">..\BuildProcessTemplates\TFSBuildExtensions\SupportFiles\VuelingRuleSet.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(ISTEAMBUILDMACHINE)' == ''">..\..\..\BuildProcessTemplates\TFSBuildExtensions\SupportFiles\VuelingRuleSet.ruleset</CodeAnalysisRuleSet>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Common.Logging" Version="2.1.2" />
+    <PackageReference Include="fasterflect" Version="2.0.1" />
+    <PackageReference Include="log4net" Version="1.2.10" />
+    <PackageReference Include="Navitaire.Skysales">
+      <Version>4.2.1.115</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="RabbitMQ.Client" Version="3.5.4" />
+    <PackageReference Include="Vueling.AirlineIdentifier.Impl.ServiceLibrary">
+      <Version>1.0.3.9</Version>
+    </PackageReference>
+    <PackageReference Include="Vueling.Configuration.Library" Version="1.3.0.2" />
+    <PackageReference Include="Vueling.DIRegister.AssemblyDiscovery.ServiceLibrary" Version="7.0.0.0" />
+    <PackageReference Include="Vueling.DIRegister.Autofac.ServiceLibrary" Version="4.0.1.0" />
+    <PackageReference Include="Vueling.DIRegister.Custom.ServiceLibrary" Version="6.0.0.0" />
+    <PackageReference Include="Vueling.Extensions.Library" Version="1.0.1" />
+    <PackageReference Include="Vueling.Logging.Message" Version="1.0.0.0" />
+    <PackageReference Include="Vueling.Logging.RabbitMqAppender.Library" Version="1.1.0.0" />
+    <PackageReference Include="Vueling.Messaging.Message" Version="1.0.2.0" />
+    <PackageReference Include="Vueling.Messaging.RabbitMqEndpoint.Contracts.ServiceLibrary" Version="2.1.0" />
+    <PackageReference Include="Vueling.Messaging.RabbitMqEndpoint.Impl.ServiceLibrary" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapping\Fluent\IBuildWindowsService.cs" />
+    <Compile Include="Bootstrapping\Fluent\IRegisterCustomisations.cs" />
+    <Compile Include="Bootstrapping\MessageConsumerBuilder.cs" />
+    <Compile Include="CommandHandlers\BookingBalancerHandler.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
+    <Compile Include="ConsumerWindowsService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ConsumerWindowsService.Designer.cs">
+      <DependentUpon>ConsumerWindowsService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Log4netTraceListener.cs" />
+    <Compile Include="Helpers\LoggingHelper.cs" />
+    <Compile Include="MyOnActivatedService.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="app.Debug.config">
+      <DependentUpon>app.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="app.Release.config">
+      <DependentUpon>app.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EventHandlers\" />
+    <Folder Include="MapFactories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Poc.Rabbitmq.Core.Domain\Poc.Rabbitmq.Core.Domain.csproj">
+      <Project>{fe51c996-9c20-4798-9b4e-d1e3e277cd6f}</Project>
+      <Name>Poc.Rabbitmq.Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Poc.Rabbitmq.Core.Infrastructure.Cache\Poc.Rabbitmq.Core.Infrastructure.Cache.csproj">
+      <Project>{563EB9B9-C055-451E-9770-940087F9CAFE}</Project>
+      <Name>Poc.Rabbitmq.Core.Infrastructure.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Poc.Rabbitmq.Core.Infrastructure.Provider\Poc.Rabbitmq.Core.Infrastructure.Provider.csproj">
+      <Project>{fb756978-1bde-49d6-9eb4-f83f7b051ae4}</Project>
+      <Name>Poc.Rabbitmq.Core.Infrastructure.Provider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Poc.Rabbitmq.Core.Message.Domain\Poc.Rabbitmq.Core.Message.Domain.csproj">
+      <Project>{b8f3de0d-f4d1-45dd-8d67-72676a7c074a}</Project>
+      <Name>Poc.Rabbitmq.Core.Message.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Poc.Rabbitmq.Core.Specification\Poc.Rabbitmq.Core.Specification.csproj">
+      <Project>{6ac54c79-6eef-47d0-b35f-1ae71af6cb34}</Project>
+      <Name>Poc.Rabbitmq.Core.Specification</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Poc.Rabbitmq.Balancer.Application\Poc.Rabbitmq.Balancer.Application.csproj">
+      <Project>{ef69f6b6-7765-4a44-884d-473fc12d6963}</Project>
+      <Name>Poc.Rabbitmq.Balancer.Application</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
