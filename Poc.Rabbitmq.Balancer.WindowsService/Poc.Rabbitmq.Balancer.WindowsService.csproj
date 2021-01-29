@@ -51,7 +51,7 @@
     <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="Common.Logging" Version="2.1.2" />
     <PackageReference Include="fasterflect" Version="2.0.1" />
-    <PackageReference Include="log4net" Version="1.2.10" />
+    <PackageReference Include="log4net" Version="2.0.10" />
     <PackageReference Include="Navitaire.Skysales">
       <Version>4.2.1.115</Version>
     </PackageReference>
